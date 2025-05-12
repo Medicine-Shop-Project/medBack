@@ -8,7 +8,6 @@ use App\Models\AddNewMedicine;
 
 class AddMedicineController extends Controller
 {
-    
     public function index()
     {
         try {
@@ -19,11 +18,11 @@ class AddMedicineController extends Controller
             'message' => 'Somting Error ',
             'error' => $e->getMessage()
          ], 500);
-             
+
         }
     }
 
-    
+
     public function store(Request $request)
     {
         $medicineData=$request->validate([
@@ -44,25 +43,25 @@ class AddMedicineController extends Controller
             'message' => 'Error saving medicine',
             'error' => $e->getMessage()
          ], 500);
-             
+
         }
 
     }
 
-    
+
     public function show(string $id)
     {
         try {
          $medicine = AddNewMedicine::findOrFail($id);
           return response()->json($medicine, 201);
         }catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
-            return response()->json(['message'=>'Medicine not found'],400); 
+            return response()->json(['message'=>'Medicine not found'],400);
         }catch (\Exception $e) {
          return response()->json([
             'message' => 'Somting Error ',
             'error' => $e->getMessage()
          ], 500);
-             
+
         }
     }
 
@@ -82,17 +81,17 @@ class AddMedicineController extends Controller
          $medicine->update($medicineData);
           return response()->json(['message'=>'update successfully',$medicine],200);
         }catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
-            return response()->json(['message'=>'Medicine not found'],400); 
+            return response()->json(['message'=>'Medicine not found'],400);
         }catch (\Exception $e) {
          return response()->json([
             'message' => 'Somting Error ',
             'error' => $e->getMessage()
          ], 500);
-             
+
         }
     }
 
- 
+
     public function destroy(string $id)
     {
          try {
@@ -100,13 +99,13 @@ class AddMedicineController extends Controller
          $medicine->delete();
           return response()->json(['message'=>'Medicine Deleted successfully'],200);
         }catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
-            return response()->json(['message'=>'Medicine not found'],400); 
+            return response()->json(['message'=>'Medicine not found'],400);
         }catch (\Exception $e) {
          return response()->json([
             'message' => 'Somting Error ',
             'error' => $e->getMessage()
          ], 500);
-             
+
         }
     }
      /* // Format expiry_date if it's present
@@ -124,7 +123,7 @@ class AddMedicineController extends Controller
         ], 200);
 
     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        return response()->json(['message' => 'Medicine not found'], 404); 
+        return response()->json(['message' => 'Medicine not found'], 404);
 
     } catch (\Exception $e) {
         return response()->json([
