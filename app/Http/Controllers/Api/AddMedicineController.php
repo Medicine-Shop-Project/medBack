@@ -8,7 +8,6 @@ use App\Models\AddNewMedicine;
 
 class AddMedicineController extends Controller
 {
-    // this is commit test
     public function index()
     {
         try {
