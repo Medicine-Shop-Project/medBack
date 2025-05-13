@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-   
+
     public function register(Request $request ){
         $validatedData=$request->validate([
             'role'=>'required|string|max:255',
@@ -38,24 +38,39 @@ class AuthController extends Controller
     }
 
 
-    public function login()
+    public function login(Request $request)
     {
-        $credentials = request(['email', 'password']);
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $credentials = $request->only('email', 'password');
+
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user) {
+            return response()->json(['error' => 'Email not registered.'], 404);
+        }
 
         if (! $token = auth('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Incorrect password.'], 401);
         }
 
         return $this->respondWithToken($token);
     }
 
-   
+
     public function myProfile()
     {
         return response()->json(auth()->user());
     }
 
-    
+
     public function logout()
     {
         auth()->logout();
@@ -63,12 +78,12 @@ class AuthController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
-   
+
     public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
     }
-    
+
 
 protected function respondWithToken($token)
 {
@@ -87,6 +102,6 @@ protected function respondWithToken($token)
     ]);
 }
 
-    
-    
+
+
 }
