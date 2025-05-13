@@ -68,12 +68,10 @@ class AddMedicineController extends Controller
     public function update(Request $request, string $id)
     {
         $medicineData=$request->validate([
-            'name'=>'sometimes|required|string|max:255',
-            'category'=>'sometimes|required|string|max:255',
+
             'manufacturer'=>'sometimes|required|string|max:255',
             'stock'=>'sometimes|required|integer|min:0',
             'price'=>'sometimes|required|numeric|min:0',
-            'expiry_date'=>'sometimes|required|date',
 
         ]);
         try {
