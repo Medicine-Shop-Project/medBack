@@ -31,7 +31,7 @@ class AddMedicineController extends Controller
             'manufacturer'=>'required|string|max:255',
             'stock'=>'required|integer|min:0',
             'price'=>'required|numeric|min:0',
-            'expiry_date'=>'required|date',
+
 
         ]);
 
@@ -69,7 +69,6 @@ class AddMedicineController extends Controller
     {
         $medicineData=$request->validate([
 
-            'manufacturer'=>'sometimes|required|string|max:255',
             'stock'=>'sometimes|required|integer|min:0',
             'price'=>'sometimes|required|numeric|min:0',
 
