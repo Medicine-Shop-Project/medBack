@@ -102,6 +102,19 @@ protected function respondWithToken($token)
     ]);
 }
 
+    public function index()
+    {
+        try {
+            $user = User::all();
+            return response()->json( $user, 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Someting Error ',
+                'error' => $e->getMessage()
+            ], 500);
+
+        }
+    }
 
 
 }
