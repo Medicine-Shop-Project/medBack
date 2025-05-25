@@ -12,8 +12,10 @@ class Order extends Model
 
     protected $fillable = [
         'status',
+        'customer_name',
+        'customer_phone',
         'total_amount',
-        // 'user_id', // if you add it
+        'user_email', // if you add it
     ];
 
 
@@ -23,8 +25,8 @@ class Order extends Model
     }
 
     // If you add user_id:
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class);
-    // }
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+     }
 }

@@ -13,18 +13,19 @@ return new class extends Migration
     {
         Schema::create('add_new_medicines', function (Blueprint $table) {
             $table->id();
-            $table->string('Name');
+            $table->unsignedBigInteger('user_id');
+            $table->string('name');
             $table->string('category');
             $table->string('manufacturer');
             $table->integer('stock');
             $table->decimal('price',8,2);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
         Schema::dropIfExists('add_new_medicines');

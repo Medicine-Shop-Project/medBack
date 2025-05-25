@@ -8,14 +8,14 @@ use App\Models\AddNewMedicine;
 
 class AddMedicineController extends Controller
 {
-    public function index()
+    public function index(): \Illuminate\Http\JsonResponse
     {
         try {
          $medicine = AddNewMedicine::all();
           return response()->json($medicine, 201);
         } catch (\Exception $e) {
          return response()->json([
-            'message' => 'Somting Error ',
+            'message' => 'Something Error ',
             'error' => $e->getMessage()
          ], 500);
 
@@ -36,7 +36,16 @@ class AddMedicineController extends Controller
         ]);
 
         try {
-         $medicine = AddNewMedicine::create($medicineData);
+         $medicine = AddNewMedicine::create([
+                 'name'=>$request->input('name'),
+                 'user_id' => auth()->id(),
+                 'category'=>$request->input('category'),
+                 'manufacturer'=>$request->input('manufacturer'),
+                 'stock'=>$request->input('stock'),
+                 'price'=>$request->input('price'),
+                ]
+
+         );
           return response()->json($medicine, 201);
         } catch (\Exception $e) {
          return response()->json([
@@ -58,7 +67,7 @@ class AddMedicineController extends Controller
             return response()->json(['message'=>'Medicine not found'],400);
         }catch (\Exception $e) {
          return response()->json([
-            'message' => 'Someting Error ',
+            'message' => 'Something Error ',
             'error' => $e->getMessage()
          ], 500);
 
