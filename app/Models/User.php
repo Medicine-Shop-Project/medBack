@@ -6,13 +6,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use Laravel\Sanctum\HasApiTokens;
 
 
-class User extends Authenticatable implements JWTSubject
+
+class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, Notifiable;
 
 
     protected $fillable = [
@@ -36,14 +37,14 @@ class User extends Authenticatable implements JWTSubject
             'password' => 'hashed',
         ];
     }
-     public function getJWTIdentifier()
+    public function notes():\Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->getKey();
+        return $this->hasMany(AddNewMedicine::class);
     }
 
-
-    public function getJWTCustomClaims()
+    public function order():\Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return [];
+        return $this->hasMany(Order::class);
     }
+
 }
